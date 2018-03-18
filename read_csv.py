@@ -16,15 +16,15 @@ try:
 	for row in reader:
 		if(row[0] == 'a'):
 			del row[0:1]
-			print(row)
 		elif(row[0] == 'sy'):
 			del row[0:1]
-			print(row)
+			employee.display_3(warehouse, int(row[0]), int(row[1]))
 		elif(row[0]=='d'):
 			employee.display(warehouse)
 		elif(row[0]=='si'):
 			del row[0:1]
-			print(row)
+			employee.display_4(warehouse, str(row[0]))
+			print(str(row[0]))
 		elif(row[0]=='ol'):
 			del row[0:1]
 			employee.status_changeon(warehouse, str(row[0]))
