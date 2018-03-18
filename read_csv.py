@@ -16,6 +16,7 @@ try:
 	for row in reader:
 		if(row[0] == 'a'):
 			del row[0:1]
+			employee.addbook(warehouse, str(row[0]), str(row[1]), str(row[2]), int(row[3]))
 		elif(row[0] == 'sy'):
 			del row[0:1]
 			employee.display_3(warehouse, int(row[0]), int(row[1]))
