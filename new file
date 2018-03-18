@@ -1,0 +1,23 @@
+# display the subset of books currently stored which have a specified ISBN
+	def display_isbn(self, isbn):
+		
+# add a book to the set of books currently stored; a newly added book should have a status of not on load. the book unique ID should be returned after completion of his task.
+	def add_book(self, author, isbn, title, year):
+
+
+
+
+
+
+
+	def deposit(self, warehouse):
+		print("The warehouse contains:", warehouse.list_contents())
+		item = input("Type a thing you want to store (or empty): ").strip()
+		if item:
+			warehouse.store(self.name, item)
+
+	def retrieve(self, warehouse):
+		print("The warehouse contains:", warehouse.list_contents())
+		item = input("Type something you want to take (or empty): ").strip()
+		if item:
+			warehouse.take(self.name, item)
