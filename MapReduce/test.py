@@ -4,21 +4,20 @@ class MaxDemo(MRJob):
 
 	def mapper(self, key, value):
 		total=0
+		totalnum=0
 		value.replace(',','')
-		print(value)
 		for i in value:
-			if i == ",":
-				continue
-			total=int(i)+total
-		yield 1, total
+			if i != ',':
+				total=int(i)+total
+				totalnum +=1
+		yield totalnum, total
+		print(totalnum)
+		print(total)
 
-	def reducer(self, key, values):
-		totalL,totalW=0,0		
-		for i in values:
-			totalL +=1
-			totalW +=1
-		print(totalL)
-		print(sum(values))
+	def reducer(self, totalnum, total):
+		print(totalnum)
+		print(total)
+
 
 if __name__ == '__main__':
 	MaxDemo.run()

@@ -1,25 +1,24 @@
 from mrjob.job import MRJob
-import csv
-import numpy as np
-def csv_readline(line):
-	for row in csv.reader([line]):
-		return row
 
 class MeanDemo(MRJob):
 
-	def mapper(self, line_no, line):
-		cell = csv_readline(line)
+	def mapper(self, key, value):
+		key="Mean:"
 		total=0
-		for w in cell:
-			total = int(w)+total
-			yield 1, total
+		totalnum=0
+		for i in value:
+			if i != ',':
+				total=float(i)+total
+				totalnum +=1
+		yield key,(total,totalnum)
 
-	def reducer(self, row, values):
-		totalrow=0
-		for i in row:
-			totalrow+=1
-		
-		print(np.mean(values))
-        
+	def reducer(self, key, values):
+		total=0
+		totalum=0		
+		for i in values:
+			total += i[0]
+			totalum +=i[1]
+		yield key, total/totalum
+
 if __name__ == '__main__':
 	MeanDemo.run()

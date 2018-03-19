@@ -1,17 +1,11 @@
 from __future__ import print_function
 import Pyro4
-import random
 
 @Pyro4.expose
 class Warehouse(object):
 	def __init__(self):
 		self.contents = [[0, "James Munkres", "9332549532", "Topology", 2014, True ],[1, "Allen Hatcher", "0521795400", "Topology", 2001, True]]
 
-	def uniqueid():
-		seed=random.getrandbits(32)
-		while True:
-			yield seed
-			seed+=1
 	def list_contents(self):
 		return self.contents
 # change the status to on load with ISBN
