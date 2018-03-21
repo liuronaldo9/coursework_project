@@ -6,10 +6,12 @@ class MeanDemo(MRJob):
 		key="Mean:"
 		total=0
 		totalnum=0
+		value=value.split(',')
 		for i in value:
-			if i != ',':
+			#if i != ',':
 				total=float(i)+total
 				totalnum +=1
+		#print(total,totalnum)
 		yield key,(total,totalnum)
 
 	def reducer(self, key, values):
@@ -18,7 +20,7 @@ class MeanDemo(MRJob):
 		for i in values:
 			total += i[0]
 			totalum +=i[1]
-		yield key, total/totalum
+		#yield key, total/totalum
 
 if __name__ == '__main__':
 	MeanDemo.run()
