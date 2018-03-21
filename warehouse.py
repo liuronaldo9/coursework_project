@@ -42,6 +42,7 @@ class Warehouse(object):
 		unique_id=len(self.contents)
 		subset=[unique_id, author, isbn, title, year, True]
 		self.contents.append(subset)
+		return unique_id
 
 
 def main():
