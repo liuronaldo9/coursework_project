@@ -8,7 +8,7 @@ class MeanDemo(MRJob):
 		totalnum=0
 		value=value.split(',')
 		for i in value:
-			#if i != ',':
+			if i != ',':
 				total=float(i)+total
 				totalnum +=1
 		#print(total,totalnum)
@@ -20,7 +20,7 @@ class MeanDemo(MRJob):
 		for i in values:
 			total += i[0]
 			totalum +=i[1]
-		#yield key, total/totalum
+		yield key, total/totalum
 
 if __name__ == '__main__':
 	MeanDemo.run()

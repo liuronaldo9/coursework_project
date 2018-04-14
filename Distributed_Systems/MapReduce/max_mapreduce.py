@@ -5,10 +5,10 @@ class MaxDemo(MRJob):
 	def mapper(self, key, value):
 		value=value.split(',')
 		value=[float(i) for i in value]
-		yield 0, max(value)
+		yield "MAX:", max(value)
 
 	def reducer(self, key, values):
-		yield 0, max(values)
+		yield "MAX:", max(values)
 
 if __name__ == '__main__':
 	MaxDemo.run()
