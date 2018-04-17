@@ -1,6 +1,7 @@
-#!/usr/bin/perl -w
-use strict;
+#!/usr/bin/perl
 use warnings;
+use strict;
+
 # check whether the command line contains two parameters
 if ($#ARGV != 1){
 	die "Your command line should contains 2 arguments, such as overview.pl DIRECTORY NAMEPATTERN* or overview.pl DIRECTORY *NAMEPATTERN";
@@ -20,29 +21,30 @@ my $file = `find ./$ARGV[0] -name "$ARGV[1]" -type f -exec du -ch {} +`;
 
 # hold the file name, location, size as a list
 
-@tmp_list=split(/[\t+,\n]/, $file);
-$list_size=@tmp_list;
+my @tmp_list=split(/[\t+,\n]/, $file);
+my $list_size=@tmp_list;
 
-while ($row=<>){
-	if ($row=~ \t\./g){
-		print ("$row\n")}
-}
+
 print $fh "$file";
 close $fh;
 
 # seperate a list as a location list and a size list and a file name list
-@location_list;
-@size_list;
-@filename;
-for($x=2; $x<$list_size-2; $x++){
+my @location_list;
+my @size_list;
+my @filename;
+for(my $x=2; $x<$list_size-2; $x++){
 	if (0==$x%2){
-		push @size_list,"@list[$x]";
+		push @size_list,"$tmp_list[$x]";
 	}else{
 # input: location list ---> output: a file name list and a location list
-		@list[$x]=~ s/.//;
-		push @location_list, "@list[$x]";
-		@list[$x]=~ m|/([^/.]*\.[^/.]*)$|;
+		#print("$tmp_list[$x]\n");
+		$tmp_list[$x]=~ s/.//;
+		push @location_list, "$tmp_list[$x]";
+		#print("@location_list\n");
+		$tmp_list[$x]=~ m|/([^/.]*\.[^/.]*)$|;
+		#print("$tmp_list[$x]\n");
 		push @filename,"$1";
+}
 }
 
 
@@ -50,7 +52,17 @@ for($x=2; $x<$list_size-2; $x++){
 
 
 # hold  ownership 
+my @ownership;
 
+for (my $i=0; $i<scalar(@filename); $i++){
+	my $awk=q(awk '{print $3}');
+	my $tmp_owner=`ls -l $ARGV[0]/$filename[$i] | $awk`;
+#	print("$filename[$i]\n");
+	#print("$tmp_owner\n");
+#print("$tmp_owner\n");
+	#print(" $owner[2]\n");
+	push @ownership,"$tmp_owner";
+}
 
 
 #create the image "gnuplot.jpg"
@@ -66,9 +78,22 @@ __EOF`;
 
 #create the overview.html
 
+
 open (my $html, ">overview.html") or die "can't open out";
 #create the html path
 my $html_path=`pwd`;
+my $table;
+for (my $i=0; $i<scalar(@filename); $i++){
+	my $table_tmp="<tr>
+	<td align=\"center\"><a href=\"$html_path$location_list[$i]\" target=\"_blank\">$filename[$i]</a></td>
+	<td align=\"center\">$location_list[$i]</td>
+	<td align=\"center\">$size_list[$i]</td>
+	<td align=\"center\">$ownership[$i]</td>
+	</tr>
+	";
+	$table .=$table_tmp
+}
+
 
 my $template="<html>
 <head>
@@ -83,50 +108,14 @@ my $template="<html>
 <th>Size</th>
 <th>Ownership</th>
 </tr>
+$table
+</table>
 <img src=\"file://$html_path/gnuplot.png\">
 </body>
 </html>
 ";
-
-
 print $html "$template";
 close  $html;
 
 
-=pod
-	my $filename='tmp';
-	open(my $fh, '>', $filename) or die "Could not open file$filename $!";
-	my $file = `find ./$ARGV[0] -type f -exec du -ch {} +`;
-	print $fh "$file";
-	close $fh;
-my $program = `cat << __EOF | gnuplot
-set term canvas mousing size 500, 500
-set output "gnuplot.html"
-set title "./$ARGV[0]"
-plot 'tmp' with impulses
-__EOF`;
-
-=cut
-
-	#$orginal=exec($file);
-#	print($file);
-
-
-# analysis the 
-
-
-
-#readlink -f "overview.pl"
-#getfacl overview.pl
-#check the ownership ls -l overview.pl
-# du -ah --exclude="*.txt"
-
-
-#foreach (@ARGV) {
-#    print "$_\n";
-#};
-#$size=@ARGV;
-#print("@ARGV[0]\n");
-#print("$size\n");
-#print("$#ARGV\n");
 
