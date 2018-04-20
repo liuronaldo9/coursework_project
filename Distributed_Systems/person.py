@@ -9,6 +9,8 @@ if sys.version_info < (3, 0):
 class Person(object):
 	def __init__(self, name):
 		self.name = name
+
+
 # read the tasks.txt file to find command and run program
 	def visit(self, warehouse):
 		print("This is {0}.".format(self.name)+'\n')
@@ -73,15 +75,19 @@ class Person(object):
 			print("The warehouse contains:"+'\n', warehouse.list_contents(),'\n')
 		else:
 			print("Sorry, cannot find any books\n")
+
+
 # change the status to on load and display all information
 	def status_changeon(self, warehouse, isbn):
 		print("{0} is changing the status to on load, the ISBN is {1}\n".format(self.name,isbn))
 		warehouse.status_on(self.name,isbn)
 
+
 # change the status to not on load and display all information
 	def status_changenot(self, warehouse, isbn):
 		print("{0} is changing the status to not on load, the ISBN is {1}\n".format(self.name,isbn))
 		warehouse.status_not(self.name,isbn)
+
 
 # display the subset of books currently stored based on year range(2000-2010)
 	def display_3(self, warehouse, year1, year2):
@@ -92,6 +98,7 @@ class Person(object):
 		else:
 			print("we cannot find the books"+'\n')
 
+
 # display the subset of books currently stored based on ISBN
 	def display_4(self, warehouse, isbn):
 		print("{0} is querying the subset of books based on ISBN:".format(self.name))
@@ -100,6 +107,8 @@ class Person(object):
 			print("The warehouse subset contains based on ISBN:"+'\n', result,'\n')
 		else:
 			print("we cannot find the books"+'\n')
+
+
 # add a book
 	def addbook(self, warehouse, author, isbn, title, year):
 		print("{0} is adding a book:".format(self.name))
